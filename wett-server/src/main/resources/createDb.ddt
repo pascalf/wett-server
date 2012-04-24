@@ -1,0 +1,98 @@
+DROP TABLE Account IF EXISTS;
+DROP TABLE AccountRole IF EXISTS;
+DROP TABLE AccountRights IF EXISTS;
+DROP TABLE Event IF EXISTS;
+DROP TABLE Game IF EXISTS;
+DROP TABLE Tip IF EXISTS;
+
+CREATE TABLE Account
+(
+	id INT NOT NULL,
+	name VARCHAR(20) NOT NULL,
+	email VARCHAR(255) NOT NULL,
+	password VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE AccountRole
+(
+	id INT NOT NULL,
+	name VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE AccountRights
+(
+	playerId INT NOT NULL,
+	roleId INT NOT NULL
+);
+
+CREATE TABLE Event
+(
+	id INT NOT NULL,
+	name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Game
+(
+	id INT NOT NULL,
+	eventId INT NOT NULL,
+	homeTeam VARCHAR(50) NOT NULL,
+	awayTeam VARCHAR(50) NOT NULL,
+	resultHome INT NULL,
+	resultAway INT NULL,
+	closingTime TIMESTAMP NOT NULL
+);
+
+CREATE TABLE Tip
+(
+	gameId INT NOT NULL,
+	playerId INT NOT NULL,
+	tipHome INT NOT NULL,
+	tipAway INT NOT NULL
+);
+
+CREATE UNIQUE INDEX AccountIndex on Account (id);
+CREATE UNIQUE INDEX AccountRigthsIndex ON AccountRights (playerId, roleId);
+CREATE UNIQUE INDEX AccountRoleIndex on AccountRole (id);
+CREATE UNIQUE INDEX EventIndex ON Event (id);
+CREATE UNIQUE INDEX GameIndex ON Game (id);
+CREATE UNIQUE INDEX TipIndex ON Tip (gameId, playerId);
+
+INSERT INTO Account (id, name, email, password)
+	VALUES (1, 'Pascal', 'pascal.fechner@gmail.com', 'pascal');
+INSERT INTO Account (id, name, email, password)
+	VALUES (2, 'Lutz', 'lutz.fechner@freenet.de', 'lutz');
+
+INSERT INTO AccountRole (id, name)
+	VALUES (1, 'ADMIN');
+INSERT INTO AccountRole (id, name)
+	VALUES (2, 'EVENTMANAGER');
+INSERT INTO AccountRole (id, name)
+	VALUES (10, 'PLAYER');
+
+INSERT INTO AccountRights (playerId, roleId)
+	VALUES (1, 1);
+INSERT INTO AccountRights (playerId, roleId)
+	VALUES (1, 2);
+INSERT INTO AccountRights (playerId, roleId)
+	VALUES (1, 10);
+INSERT INTO AccountRights (playerId, roleId)
+	VALUES (2, 10);
+
+INSERT INTO Event (id, name)
+	VALUES (1, 'WM 2010');
+INSERT INTO Event (id, name)
+	VALUES (2, 'EM 2012');
+	
+INSERT INTO Game (id, eventId, homeTeam, awayTeam, resultHome, resultAway, closingTime)
+	VALUES (1, 1, 'Deutschland', 'Frankreich', 0, 0, '2008-08-08 20:08:08');
+INSERT INTO Game (id, eventId, homeTeam, awayTeam, resultHome, resultAway, closingTime)
+	VALUES (2, 1, 'Deutschland', 'England', 3, 0, '2008-08-08 20:08:08');
+INSERT INTO Game (id, eventId, homeTeam, awayTeam, resultHome, resultAway, closingTime)
+	VALUES (3, 2, 'Deutschland', 'Polen', NULL, NULL, '2008-08-08 20:08:08');
+INSERT INTO Game (id, eventId, homeTeam, awayTeam, resultHome, resultAway, closingTime)
+	VALUES (4, 2, 'Deutschland', 'Griechenland', 5, 0, '2008-08-08 20:08:08');
+
+INSERT INTO Tip (gameId, playerId, tipHome, tipAway)
+	VALUES (1, 1, 3, 0);
+INSERT INTO Tip (gameId, playerId, tipHome, tipAway)
+	VALUES (1, 2, 2, 0); 

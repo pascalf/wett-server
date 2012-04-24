@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 23.04.2012 18:16:16 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="de.worldtree.wetten.model.Game" table="GAME">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="eventId" type="int">
+            <column name="EVENTID" />
+        </property>
+        <property name="homeTeam" type="java.lang.String">
+            <column name="HOMETEAM" />
+        </property>
+        <property name="awayTeam" type="java.lang.String">
+            <column name="AWAYTEAM" />
+        </property>
+        <property name="resultHome" type="int">
+            <column name="RESULTHOME" />
+        </property>
+        <property name="resultAway" type="int">
+            <column name="RESULTAWAY" />
+        </property>
+        <property name="closingTime" type="java.util.Date">
+            <column name="CLOSINGTIME" />
+        </property>
+    </class>
+</hibernate-mapping>

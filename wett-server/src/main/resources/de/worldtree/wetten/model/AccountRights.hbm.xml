@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 23.04.2012 18:16:16 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="de.worldtree.wetten.model.AccountRights" table="ACCOUNTRIGHTS">
+        <id name="roleId" type="int">
+            <column name="ROLEID" />
+            <generator class="assigned" />
+        </id>
+        <property name="playerId" type="int">
+            <column name="PLAYERID" />
+        </property>
+    </class>
+</hibernate-mapping>
