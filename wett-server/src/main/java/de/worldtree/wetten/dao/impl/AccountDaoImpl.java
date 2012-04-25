@@ -5,12 +5,13 @@ package de.worldtree.wetten.dao.impl;
 
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistry;
-import org.hibernate.service.ServiceRegistryBuilder;
+import org.hibernate.criterion.Restrictions;
 
+import de.worldtree.wetten.dao.AbstractDao;
 import de.worldtree.wetten.dao.AccountDao;
 import de.worldtree.wetten.model.Account;
 
@@ -18,47 +19,48 @@ import de.worldtree.wetten.model.Account;
  * @author pascal
  *
  */
-public class AccountDaoImpl implements AccountDao {
+public class AccountDaoImpl extends AccountDao {
+	
+	static
+	{
+		setLog(AccountDaoImpl.class);
+	}
 
-	private static final SessionFactory sessionFactory; 
-	private static final ServiceRegistry serviceRegistry;
-	static { 
-		try { 
-			// Create the SessionFactory from hibernate.cfg.xml 
-			Configuration configuration = new Configuration();
-		    configuration.configure();
-		    serviceRegistry = new ServiceRegistryBuilder().applySettings(configuration.getProperties()).buildServiceRegistry();        
-		    sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-
-		} catch (Throwable ex) { 
-			// Make sure you log the exception, as it might be swallowed 
-			System.err.println("Initial SessionFactory creation failed." + ex); 
-			throw new ExceptionInInitializerError(ex); 
-		} 
-	} 
 	public void create(List<Account> listAccounts) { 
-		Session session = sessionFactory.openSession(); 
+		Session session = getSessionFactory().openSession(); 
 		session.getTransaction().begin(); 
 		for (Account account : listAccounts) { 
 			session.save(account); 
 		} 
 		session.getTransaction().commit(); 
 	} 
-	public List<Account> findAll() { 
-		Session session = sessionFactory.openSession(); 
-		List<Account> list = session.createQuery("From Account").list(); 
+	public List<Account> findAll() {
+		getLog().debug(String.format("Call findAll() []"));
+		Session session = getSessionFactory().openSession();
+		session.getTransaction().begin();
+		List<Account> list = session.createQuery("From Account").list();
+		session.getTransaction().commit();
+		getLog().debug(String.format("found %d items", list != null ? list.size() : 0));
 		return list; 
 	}
-	
-	@Override
 	public Account findById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		getLog().debug(String.format("Call findById(id) [id=%d]", id));
+		Session session = getSessionFactory().openSession();
+		session.getTransaction().begin();
+		Account account = (Account)session.createCriteria(Account.class).add(Restrictions.eq("id", id)).uniqueResult();
+		session.getTransaction().commit();
+		getLog().debug(String.format("found %d items", account != null ? 1 : 0));
+		return account;
 	}
-	@Override
 	public Account findByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		getLog().debug(String.format("Call findByName(name) [name=%s]", name));
+		Session session = getSessionFactory().openSession();
+		session.getTransaction().begin();
+		Account account = (Account)session.createCriteria(Account.class).add(Restrictions.eq("name", name)).uniqueResult();
+		session.getTransaction().commit();
+		getLog().debug(String.format("found %d items", account != null ? 1 : 0));
+		return account;	
 	}
-
+	
+	
 }

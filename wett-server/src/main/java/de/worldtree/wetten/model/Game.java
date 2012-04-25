@@ -5,6 +5,8 @@ package de.worldtree.wetten.model;
 
 import java.util.Date;
 
+import de.worldtree.wetten.util.DateUtils;
+
 /**
  * @author pascal
  *
@@ -107,7 +109,7 @@ public class Game {
 		return "Game [id=" + id + ", eventId=" + eventId + ", homeTeam="
 				+ homeTeam + ", awayTeam=" + awayTeam + ", resultHome="
 				+ resultHome + ", resultAway=" + resultAway + ", closingTime="
-				+ closingTime + "]";
+				+ DateUtils.getSimpleDateFormat().format(closingTime) + "]";
 	}
 	
 }

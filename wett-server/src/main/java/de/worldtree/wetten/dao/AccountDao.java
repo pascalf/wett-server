@@ -11,7 +11,7 @@ import de.worldtree.wetten.model.Account;
  * @author pascal
  *
  */
-public interface AccountDao {
+public abstract class AccountDao extends AbstractDao {
 
 	public abstract void create(List<Account> listAccounts);
 	public abstract List<Account> findAll();
