@@ -6,7 +6,7 @@
  <class name="de.worldtree.wetten.model.Game" table="GAME">
   <id name="id" type="int">
    <column name="ID"/>
-   <generator class="assigned"/>
+   <generator class="sequence"/>
   </id>
   <property generated="never" lazy="false" name="eventId" type="int">
    <column name="EVENTID"/>

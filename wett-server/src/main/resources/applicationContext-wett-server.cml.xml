@@ -21,20 +21,32 @@
 
 
 	<bean id="accountDao" class="de.worldtree.wetten.dao.impl.AccountDaoImpl"
-		scope="prototype">
+		scope="singleton">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	<bean id="gameDao" class="de.worldtree.wetten.dao.impl.GameDaoImpl"
-		scope="prototype">
+		scope="singleton">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	<bean id="eventDao" class="de.worldtree.wetten.dao.impl.EventDaoImpl"
-		scope="prototype">
+		scope="singleton">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	<bean id="tipDao" class="de.worldtree.wetten.dao.impl.TipDaoImpl"
-		scope="prototype">
+		scope="singleton">
 		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="eventPlayerDao" class="de.worldtree.wetten.dao.impl.EventPlayerDaoImpl"
+		scope="singleton">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean name="gameTipService" class="de.worldtree.wetten.service.impl.GameTipServiceImpl">
+		<property name="eventDao" ref="eventDao"/>
+		<property name="accountDao" ref="accountDao"/>
+		<property name="gameDao" ref="gameDao"/>
+		<property name="tipDao" ref="tipDao"/>
+		<property name="eventPlayerDao" ref="eventPlayerDao"/>
 	</bean>
 
 	<bean id="sessionFactory"
@@ -42,6 +54,11 @@
 		scope="singleton">
 		<property name="dataSource" ref="myDataSource" />
 		<property name="configLocation" value="classpath:hibernate.cfg.xml" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.show_sql">${jdbc.show_sql}</prop>
+			</props>
+		</property>
 		
 	</bean>
 	

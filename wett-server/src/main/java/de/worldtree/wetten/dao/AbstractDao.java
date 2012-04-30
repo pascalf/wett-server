@@ -3,8 +3,6 @@
  */
 package de.worldtree.wetten.dao;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.hibernate.SessionFactory;
 
 /**
@@ -12,16 +10,6 @@ import org.hibernate.SessionFactory;
  *
  */
 public class AbstractDao {
-
-	private static Log log;
-	
-	public static void setLog(Class c) {
-		log = LogFactory.getLog(c);
-	}
-	
-	public static Log getLog() {
-		return log;
-	}
 	
 	private SessionFactory sessionFactory = null;
 

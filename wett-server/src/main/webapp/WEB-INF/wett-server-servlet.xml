@@ -8,6 +8,26 @@
   <bean name="/hello.htm" class="de.worldtree.wetten.web.HelloController">
   	<property name="accountDao" ref="accountDao"/>
   </bean>
+  
+  <bean name="/eventlist.htm" class="de.worldtree.wetten.web.EventListController">
+  	<property name="eventDao" ref="eventDao"/>
+  </bean>
+  
+  <bean name="/eventoverview.htm" class="de.worldtree.wetten.web.EventOverviewController">
+  	<property name="eventDao" ref="eventDao"/>
+  	<property name="gameDao" ref="gameDao"/>
+  </bean>
+  
+  <bean name="/gametipoverview.htm" class="de.worldtree.wetten.web.GameTipOverviewController">
+  	<property name="gameTipService" ref="gameTipService"/>
+  </bean>
+  
+  <bean name="/eventtipoverview.htm" class="de.worldtree.wetten.web.EventTipOverviewController">
+  	<property name="gameTipService" ref="gameTipService"/>
+  </bean>
+  
+  <bean name="/admin/games.htm" class="de.worldtree.wetten.web.admin.GameController">
+  </bean>
 
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />

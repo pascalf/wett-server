@@ -4,6 +4,13 @@ DROP TABLE AccountRights IF EXISTS;
 DROP TABLE Event IF EXISTS;
 DROP TABLE Game IF EXISTS;
 DROP TABLE Tip IF EXISTS;
+DROP TABLE EventPlayer IF EXISTS;
+
+CREATE TABLE EventPlayer
+(
+	eventId INT NOT NULL,
+	playerId INT NOT NULL
+);
 
 CREATE TABLE Account
 (
@@ -56,6 +63,7 @@ CREATE UNIQUE INDEX AccountRoleIndex on AccountRole (id);
 CREATE UNIQUE INDEX EventIndex ON Event (id);
 CREATE UNIQUE INDEX GameIndex ON Game (id);
 CREATE UNIQUE INDEX TipIndex ON Tip (gameId, playerId);
+CREATE UNIQUE INDEX EventPlayerIndex ON EventPlayer (eventId, playerId);
 
 INSERT INTO Account (id, name, email, password)
 	VALUES (1, 'Pascal', 'pascal.fechner@gmail.com', 'pascal');
@@ -96,3 +104,12 @@ INSERT INTO Tip (gameId, playerId, tipHome, tipAway)
 	VALUES (1, 1, 3, 0);
 INSERT INTO Tip (gameId, playerId, tipHome, tipAway)
 	VALUES (1, 2, 2, 0); 
+	
+INSERT INTO EventPlayer (eventId, playerId)
+	VALUES (1, 1);
+INSERT INTO EventPlayer (eventId, playerId)
+	VALUES (1, 2);
+INSERT INTO EventPlayer (eventId, playerId)
+	VALUES (2, 1);
+INSERT INTO EventPlayer (eventId, playerId)
+	VALUES (2, 2);

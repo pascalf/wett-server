@@ -9,5 +9,6 @@
   <mapping class="de.worldtree.wetten.model.Event" resource="de/worldtree/wetten/model/Event.hbm.xml"/>
   <mapping class="de.worldtree.wetten.model.Game" resource="de/worldtree/wetten/model/Game.hbm.xml"/>
   <mapping class="de.worldtree.wetten.model.Tip" resource="de/worldtree/wetten/model/Tip.hbm.xml"/>
+  <mapping class="de.worldtree.wetten.model.EventPlayer" resource="de/worldtree/wetten/model/EventPlayer.hbm.xml"/>
  </session-factory>
 </hibernate-configuration>

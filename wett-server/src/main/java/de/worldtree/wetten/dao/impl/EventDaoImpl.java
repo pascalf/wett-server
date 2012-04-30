@@ -5,6 +5,8 @@ package de.worldtree.wetten.dao.impl;
 
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
@@ -19,20 +21,19 @@ import de.worldtree.wetten.model.Event;
  */
 public class EventDaoImpl extends EventDao {
 
-	static {
-		setLog(EventDaoImpl.class);
-	}
+	private static final Log log = LogFactory.getLog(EventDaoImpl.class);
 	/* (non-Javadoc)
 	 * @see de.worldtree.wetten.dao.EventDao#findAll()
 	 */
 	@Override
 	public List<Event> findAll() {
-		getLog().debug(String.format("Call findAll() []"));
+		log.debug(String.format("Call findAll() []"));
 		Session session = getSessionFactory().openSession();
 		session.getTransaction().begin();
 		List<Event> list = session.createQuery("From Event").list();
 		session.getTransaction().commit();
-		getLog().debug(String.format("found %d items", list != null ? list.size() : 0));
+		session.close();
+		log.debug(String.format("found %d items", list != null ? list.size() : 0));
 		return list; 
 	}
 
@@ -41,12 +42,13 @@ public class EventDaoImpl extends EventDao {
 	 */
 	@Override
 	public Event findById(int id) {
-		getLog().debug(String.format("Call findById(id) [id=%d]", id));
+		log.debug(String.format("Call findById(id) [id=%d]", id));
 		Session session = getSessionFactory().openSession();
 		session.getTransaction().begin();
 		Event event = (Event)session.createCriteria(Event.class).add(Restrictions.eq("id", id)).uniqueResult();
 		session.getTransaction().commit();
-		getLog().debug(String.format("found %d items", event != null ? 1 : 0));
+		session.close();
+		log.debug(String.format("found %d items", event != null ? 1 : 0));
 		return event;
 	}
 
@@ -55,12 +57,13 @@ public class EventDaoImpl extends EventDao {
 	 */
 	@Override
 	public Event findByName(String name) {
-		getLog().debug(String.format("Call findByName(name) [name=%s]", name));
+		log.debug(String.format("Call findByName(name) [name=%s]", name));
 		Session session = getSessionFactory().openSession();
 		session.getTransaction().begin();
 		Event event = (Event)session.createCriteria(Event.class).add(Restrictions.eq("name", name)).uniqueResult();
 		session.getTransaction().commit();
-		getLog().debug(String.format("found %d items", event != null ? 1 : 0));
+		session.close();
+		log.debug(String.format("found %d items", event != null ? 1 : 0));
 		return event;	
 	}
 

@@ -7,28 +7,35 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<title>Account Overview</title>
+<title>Event List</title>
 <link href="includes/style.css" rel="stylesheet" type="text/css">
 </head>
+
 <body>
-	<h1>Hello - Spring Application</h1>
-	<p>
-		Greetings, it is now
-		<c:out value="${model.now}" />
-	</p>
-	<h3>Accounts</h3>
-	<table>
-		<tr class="even">
-			<th>ID</th>
+<h1>Events</h1>
+
+<p>
+
+All available Events:
+
+<p>
+
+<h3>Events</h3>
+
+<table border="1">
+<tr class="even">
 			<th>Name</th>
+			
 		</tr>
-		<c:forEach items="${model.accounts}" var="account" varStatus="status">
-			<tr class="<c:if test="${status.count % 2 == 0}">even</c:if>">
-				<td>${account.id}</td>
-				<td>${account.name}</td>
+		<c:forEach items="${model.events}" var="event" varStatus="status">
+			<!--  <tr class="<c:if test="${status.count % 2 == 0}">even</c:if>">-->
+			<tr>
+				<td><a href="eventoverview.htm?eid=<c:out value="${event.id}"/>">${event.name}</a></td>
+				
 			</tr>
 		</c:forEach>
-	</table>
+</table>
 
 </body>
+
 </html>
