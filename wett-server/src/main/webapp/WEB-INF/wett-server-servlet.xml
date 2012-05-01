@@ -1,38 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-  
-  <bean name="/hello.htm" class="de.worldtree.wetten.web.HelloController">
-  	<property name="accountDao" ref="accountDao"/>
-  </bean>
-  
-  <bean name="/eventlist.htm" class="de.worldtree.wetten.web.EventListController">
-  	<property name="eventDao" ref="eventDao"/>
-  </bean>
-  
-  <bean name="/eventoverview.htm" class="de.worldtree.wetten.web.EventOverviewController">
-  	<property name="eventDao" ref="eventDao"/>
-  	<property name="gameDao" ref="gameDao"/>
-  </bean>
-  
-  <bean name="/gametipoverview.htm" class="de.worldtree.wetten.web.GameTipOverviewController">
-  	<property name="gameTipService" ref="gameTipService"/>
-  </bean>
-  
-  <bean name="/eventtipoverview.htm" class="de.worldtree.wetten.web.EventTipOverviewController">
-  	<property name="gameTipService" ref="gameTipService"/>
-  </bean>
-  
-  <bean name="/admin/games.htm" class="de.worldtree.wetten.web.admin.GameController">
-  </bean>
 
-	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+<!-- 
+	<bean id="urlMap" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+	</bean>
+ -->
+ 
+	<bean id="urlMapAuthenticate"
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="interceptors">
+			<list>
+			</list>
+		</property>
+		<property name="urlMap">
+			<props>
+				<prop key="/hello.htm">helloController</prop>
+				<prop key="/eventlist.htm">eventListController</prop>
+				<prop key="/eventoverview.htm">eventOverviewController</prop>
+				<prop key="/gametipoverview.htm">gameTipOverviewController</prop>
+				<prop key="/eventtipoverview.htm">eventTipOverviewController</prop>
+				<prop key="/admin/games.htm">adminGameController</prop>
+				<prop key="/admin/eventoverview.htm">adminEventOverviewController</prop>
+				<prop key="/admin/modifyevent.htm">adminModifyEventController</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
 		<property name="prefix" value="/WEB-INF/jsp/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
 
+	<!-- Controller section -->
+	<bean name="helloController" class="de.worldtree.wetten.web.HelloController">
+		<property name="accountDao" ref="accountDao" />
+	</bean>
+
+	<bean name="eventListController" class="de.worldtree.wetten.web.EventListController">
+		<property name="eventDao" ref="eventDao" />
+	</bean>
+
+	<bean name="eventOverviewController" class="de.worldtree.wetten.web.EventOverviewController">
+		<property name="eventDao" ref="eventDao" />
+		<property name="gameDao" ref="gameDao" />
+	</bean>
+
+	<bean name="gameTipOverviewController" class="de.worldtree.wetten.web.GameTipOverviewController">
+		<property name="gameTipService" ref="gameTipService" />
+	</bean>
+
+	<bean name="eventTipOverviewController" class="de.worldtree.wetten.web.EventTipOverviewController">
+		<property name="gameTipService" ref="gameTipService" />
+	</bean>
+
+	<bean name="adminGameController" class="de.worldtree.wetten.web.admin.GameController">
+	</bean>
+	
+	<bean name="adminEventOverviewController" class="de.worldtree.wetten.web.admin.EventOverviewController">
+		<property name="eventDao" ref="eventDao"/>
+	</bean>
+	
+	<bean name="adminModifyEventController" class="de.worldtree.wetten.web.admin.ModifyEventController">
+	</bean>
 </beans>

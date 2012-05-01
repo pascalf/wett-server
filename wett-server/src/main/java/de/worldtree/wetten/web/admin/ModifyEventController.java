@@ -3,8 +3,8 @@
  */
 package de.worldtree.wetten.web.admin;
 
-import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,24 +12,24 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
+import org.springframework.web.servlet.mvc.SimpleFormController;
+
+import de.worldtree.wetten.model.Event;
 
 /**
  * @author pascal
  *
  */
-public class GameController implements Controller {
+public class ModifyEventController extends SimpleFormController {
 
 	@Override
 	public ModelAndView handleRequest(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		
+		Map<String, Object> modelMap = new HashMap<String, Object>();
 		
-		String now = (new Date()).toString();
-        
-        Map<String, Object> modelMap = new HashMap<String, Object>();
-        modelMap.put("now", now);        
-        
-        return new ModelAndView("admin/games", "model", modelMap);
+		
+		return new ModelAndView("admin/modifyevent", "model", modelMap);
 	}
 
 }
