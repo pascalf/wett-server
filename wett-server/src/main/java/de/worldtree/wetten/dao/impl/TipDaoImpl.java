@@ -8,44 +8,43 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import de.worldtree.wetten.dao.AbstractDao;
 import de.worldtree.wetten.dao.TipDao;
-import de.worldtree.wetten.model.Account;
-import de.worldtree.wetten.model.Event;
 import de.worldtree.wetten.model.Tip;
 
 /**
  * @author pascal
  *
  */
-public class TipDaoImpl extends TipDao {
+@Component(value="tipDao")
+public class TipDaoImpl implements TipDao {
 
 	private static final Log log = LogFactory.getLog(TipDaoImpl.class);
 	
-	/* (non-Javadoc)
-	 * @see de.worldtree.wetten.dao.TipDao#findAll()
-	 */
-	@Override
+	@Autowired
+	private SessionFactory sessionFactory = null;
+
 	public List<Tip> findAll() {
 		log.debug(String.format("Call findAll() []"));
-		Session session = getSessionFactory().openSession();
+		Session session = sessionFactory.openSession();
 		session.getTransaction().begin();
+		
+		@SuppressWarnings("unchecked")
 		List<Tip> list = session.createQuery("From Tip").list();
+		
 		session.getTransaction().commit();
 		session.close();
 		log.debug(String.format("found %d items", list != null ? list.size() : 0));
 		return list; 
 	}
 
-	/* (non-Javadoc)
-	 * @see de.worldtree.wetten.dao.TipDao#findByPlayerIdAndGameId(int, int)
-	 */
-	@Override
 	public Tip findByPlayerIdAndGameId(int playerId, int gameId) {
 		log.debug(String.format("Call findByPlayerIdAndGameId(playerId, gameId) [playerId=%d | gameId=%d]", playerId, gameId));
-		Session session = getSessionFactory().openSession();
+		Session session = sessionFactory.openSession();
 		session.getTransaction().begin();
 		Tip tip = (Tip)session.createCriteria(Tip.class)
 				.add(Restrictions.eq("playerId", playerId))

@@ -5,20 +5,33 @@ package de.worldtree.wetten.model;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.GenericGenerator;
+
 import de.worldtree.wetten.util.DateUtils;
 
 /**
  * @author pascal
  *
  */
+@Entity
 public class Game {
 
+	@Id
+	@GeneratedValue(generator="increment")
+	@GenericGenerator(name="increment", strategy="increment")
 	private int id;
 	private int eventId;
 	private String homeTeam;
 	private String awayTeam;
 	private Integer resultHome;
 	private Integer resultAway;
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date closingTime;
 	/**
 	 * @return the id

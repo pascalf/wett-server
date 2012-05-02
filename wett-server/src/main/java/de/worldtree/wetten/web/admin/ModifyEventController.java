@@ -20,6 +20,7 @@ import de.worldtree.wetten.model.Event;
  * @author pascal
  *
  */
+
 public class ModifyEventController extends SimpleFormController {
 
 	@Override

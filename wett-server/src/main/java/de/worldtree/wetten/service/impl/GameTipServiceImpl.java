@@ -13,13 +13,10 @@ import org.apache.commons.logging.LogFactory;
 
 import de.worldtree.wetten.dao.AccountDao;
 import de.worldtree.wetten.dao.EventDao;
-import de.worldtree.wetten.dao.EventPlayerDao;
 import de.worldtree.wetten.dao.GameDao;
 import de.worldtree.wetten.dao.TipDao;
 import de.worldtree.wetten.model.Event;
-import de.worldtree.wetten.model.EventPlayer;
 import de.worldtree.wetten.model.Game;
-import de.worldtree.wetten.model.Tip;
 import de.worldtree.wetten.service.GameTipService;
 import de.worldtree.wetten.service.model.GameTip;
 import de.worldtree.wetten.service.model.PlayerTip;
@@ -36,23 +33,7 @@ public class GameTipServiceImpl implements GameTipService {
 	private GameDao gameDao;
 	private TipDao tipDao;
 	private EventDao eventDao;
-	private EventPlayerDao eventPlayerDao;
 	
-
-	/**
-	 * @return the eventPlayerDao
-	 */
-	public EventPlayerDao getEventPlayerDao() {
-		return eventPlayerDao;
-	}
-
-	/**
-	 * @param eventPlayerDao the eventPlayerDao to set
-	 */
-	public void setEventPlayerDao(EventPlayerDao eventPlayerDao) {
-		this.eventPlayerDao = eventPlayerDao;
-	}
-
 	public AccountDao getAccountDao() {
 		return accountDao;
 	}
@@ -87,33 +68,34 @@ public class GameTipServiceImpl implements GameTipService {
 
 	@Override
 	public Map findTipsForGame(int gameId) {
-		Game game = gameDao.findById(gameId);
-		
-		List<EventPlayer> eventPlayerList = eventPlayerDao.findByEventId(game.getEventId());
-		
-		List<PlayerTip> playerTips = new ArrayList<PlayerTip>();
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-		map.put("game", game);
-		
-		int tipCount = 0;
-		
-		for(EventPlayer eventPlayer : eventPlayerList) {
-			PlayerTip playerTip = new PlayerTip();
-			playerTip.setPlayer(accountDao.findById(eventPlayer.getPlayerId()));
-			Tip t = tipDao.findByPlayerIdAndGameId(eventPlayer.getPlayerId(), gameId);
-			if ( t != null)
-				tipCount++;
-			playerTip.setTip(t);
-			playerTips.add(playerTip);
-		}
-		
-		log.debug(String.format("Found %d individual players with %d given tips for game %s",playerTips.size(), tipCount, game.getId()));
-		
-		map.put("playerTips", playerTips);
-		
-		return map;
+//		Game game = gameDao.findById(gameId);
+//		
+//		List<EventPlayer> eventPlayerList = eventPlayerDao.findByEventId(game.getEventId());
+//		
+//		List<PlayerTip> playerTips = new ArrayList<PlayerTip>();
+//		
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		
+//		map.put("game", game);
+//		
+//		int tipCount = 0;
+//		
+//		for(EventPlayer eventPlayer : eventPlayerList) {
+//			PlayerTip playerTip = new PlayerTip();
+//			playerTip.setPlayer(accountDao.findById(eventPlayer.getPlayerId()));
+//			Tip t = tipDao.findByPlayerIdAndGameId(eventPlayer.getPlayerId(), gameId);
+//			if ( t != null)
+//				tipCount++;
+//			playerTip.setTip(t);
+//			playerTips.add(playerTip);
+//		}
+//		
+//		log.debug(String.format("Found %d individual players with %d given tips for game %s",playerTips.size(), tipCount, game.getId()));
+//		
+//		map.put("playerTips", playerTips);
+//		
+//		return map;
+		return null;
 	}
 
 	@Override

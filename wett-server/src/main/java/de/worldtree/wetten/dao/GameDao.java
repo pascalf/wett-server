@@ -12,7 +12,7 @@ import de.worldtree.wetten.model.Game;
  * @author pascal
  *
  */
-public abstract class GameDao extends AbstractDao {
+public interface GameDao {
 
 	public abstract List<Game> findAll();
 	public abstract Game findById(int id);

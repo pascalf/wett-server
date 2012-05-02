@@ -3,18 +3,27 @@
  */
 package de.worldtree.wetten.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
-import org.junit.AfterClass;
-import org.junit.Assert;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.worldtree.wetten.model.Account;
 
@@ -22,26 +31,42 @@ import de.worldtree.wetten.model.Account;
  * @author pascal
  *
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations="classpath:applicationContext-wett-server.cml.xml")
 public class AccountDaoTest {
-
-	private static AccountDao dao;
 	
+	private static final Log log = LogFactory.getLog(AccountDaoTest.class);
+
+	@Autowired
+	private SessionFactory sessionFactory;
+	@Autowired
+	private AccountDao dao;
+	
+
 	/**
 	 * @throws java.lang.Exception
 	 */
-	@BeforeClass
-	public static void setUp() throws Exception {
-		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext-wett-server.cml.xml");
-		
-		dao = (AccountDao)ctx.getBean("accountDao");
+	@Before
+	public void setUp() throws Exception {
+		sessionFactory.getCurrentSession().beginTransaction();
 	}
 
 	/**
 	 * @throws java.lang.Exception
 	 */
-	@AfterClass
-	public static void tearDown() throws Exception {
-	}	
+	@After
+	public void tearDown() throws Exception {
+		boolean commitFailed = false;
+		try {
+			sessionFactory.getCurrentSession().getTransaction().commit();
+		} catch (Exception e) {
+			commitFailed = true;
+			log.error("Transaction.commit() failed", e);
+			throw e;
+		} 
+		if(commitFailed)
+			fail("Something threw exception, see log");
+	}
 	
 	@Test
 	public void test_findAll() {

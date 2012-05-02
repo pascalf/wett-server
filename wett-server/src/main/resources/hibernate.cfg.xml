@@ -3,12 +3,14 @@
                                          "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
  <session-factory>
-  <mapping class="de.worldtree.wetten.model.Account" resource="de/worldtree/wetten/model/Account.hbm.xml"/>
-  <mapping class="de.worldtree.wetten.model.AccountRights" resource="de/worldtree/wetten/model/AccountRights.hbm.xml"/>
-  <mapping class="de.worldtree.wetten.model.AccountRole" resource="de/worldtree/wetten/model/AccountRole.hbm.xml"/>
-  <mapping class="de.worldtree.wetten.model.Event" resource="de/worldtree/wetten/model/Event.hbm.xml"/>
-  <mapping class="de.worldtree.wetten.model.Game" resource="de/worldtree/wetten/model/Game.hbm.xml"/>
-  <mapping class="de.worldtree.wetten.model.Tip" resource="de/worldtree/wetten/model/Tip.hbm.xml"/>
-  <mapping class="de.worldtree.wetten.model.EventPlayer" resource="de/worldtree/wetten/model/EventPlayer.hbm.xml"/>
+  <property name="hibernate.current_session_context_class">thread</property>
+  <property name="hibernate.hbm2ddl.auto">update</property>
+  <mapping class="de.worldtree.wetten.model.Account"/>
+  <!-- <mapping class="de.worldtree.wetten.model.AccountRights" resource="de/worldtree/wetten/model/AccountRights.hbm.xml"/> -->
+  <mapping class="de.worldtree.wetten.model.AccountRole"/>
+  <mapping class="de.worldtree.wetten.model.Event"/>
+  <mapping class="de.worldtree.wetten.model.Game"/>
+  <mapping class="de.worldtree.wetten.model.Tip"/>
+  <!-- <mapping class="de.worldtree.wetten.model.EventPlayer" resource="de/worldtree/wetten/model/EventPlayer.hbm.xml"/> -->
  </session-factory>
 </hibernate-configuration>

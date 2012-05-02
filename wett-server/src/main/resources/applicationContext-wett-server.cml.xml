@@ -14,42 +14,28 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
+<context:component-scan base-package="de.worldtree.wetten.web"/>
 
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
 		p:location="classpath:jdbc.properties" />
 
-
-	<bean id="accountDao" class="de.worldtree.wetten.dao.impl.AccountDaoImpl"
-		scope="singleton">
-		<property name="sessionFactory" ref="sessionFactory" />
-	</bean>
-	<bean id="gameDao" class="de.worldtree.wetten.dao.impl.GameDaoImpl"
-		scope="singleton">
-		<property name="sessionFactory" ref="sessionFactory" />
-	</bean>
-	<bean id="eventDao" class="de.worldtree.wetten.dao.impl.EventDaoImpl"
-		scope="singleton">
-		<property name="sessionFactory" ref="sessionFactory" />
-	</bean>
-	<bean id="tipDao" class="de.worldtree.wetten.dao.impl.TipDaoImpl"
-		scope="singleton">
-		<property name="sessionFactory" ref="sessionFactory" />
-	</bean>
-	<bean id="eventPlayerDao" class="de.worldtree.wetten.dao.impl.EventPlayerDaoImpl"
-		scope="singleton">
-		<property name="sessionFactory" ref="sessionFactory" />
-	</bean>
-
+	<bean id="accountDao" class="de.worldtree.wetten.dao.impl.AccountDaoImpl" scope="singleton"/>
+	<bean id="gameDao" class="de.worldtree.wetten.dao.impl.GameDaoImpl" scope="singleton"/>
+	<bean id="eventDao" class="de.worldtree.wetten.dao.impl.EventDaoImpl" scope="singleton"/>
+	<bean id="tipDao" class="de.worldtree.wetten.dao.impl.TipDaoImpl" scope="singleton"/>
+	 
 	<bean id="gameTipService" class="de.worldtree.wetten.service.impl.GameTipServiceImpl">
 		<property name="eventDao" ref="eventDao" />
 		<property name="accountDao" ref="accountDao" />
 		<property name="gameDao" ref="gameDao" />
 		<property name="tipDao" ref="tipDao" />
-		<property name="eventPlayerDao" ref="eventPlayerDao" />
 	</bean>
-
-	<bean id="applicationSecurityManager" class="de.worldtree.wetten.util.ApplicationSecurityManager" />
+	
+	
+	<bean id="accountService" class="de.worldtree.wetten.service.impl.AccountServiceImpl"/>
+	<bean id="eventService" class="de.worldtree.wetten.service.impl.EventServiceImpl"/>
+	<bean id="gameService" class="de.worldtree.wetten.service.impl.GameServiceImpl"/>
 
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
@@ -61,9 +47,7 @@
 				<prop key="hibernate.show_sql">${jdbc.show_sql}</prop>
 			</props>
 		</property>
-
 	</bean>
-
 
 	<bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">

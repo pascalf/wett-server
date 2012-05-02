@@ -4,36 +4,58 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.worldtree.wetten.model.Tip;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations="classpath:applicationContext-wett-server.cml.xml")
 public class TipDaoTest {
 
-	private static TipDao dao;
+	private static final Log log = LogFactory.getLog(AccountDaoTest.class);
+
+	@Autowired
+	private SessionFactory sessionFactory;
+	@Autowired
+	private TipDao dao;
 	
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext-wett-server.cml.xml");
-		
-		dao = (TipDao)ctx.getBean("tipDao");
+	/**
+	 * @throws java.lang.Exception
+	 */
+	@Before
+	public void setUp() throws Exception {
+		sessionFactory.getCurrentSession().beginTransaction();
 	}
 
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-	
-	@Test
-	public void test_findAll() {
-		List<Tip> tips = null;
-		tips = dao.findAll();
-		
-		assertNotNull("List is null", tips);
-		assertFalse("List is empty", tips.isEmpty());
+	/**
+	 * @throws java.lang.Exception
+	 */
+	@After
+	public void tearDown() throws Exception {
+		boolean commitFailed = false;
+		try {
+			sessionFactory.getCurrentSession().getTransaction().commit();
+		} catch (Exception e) {
+			commitFailed = true;
+			log.error("Transaction.commit() failed", e);
+			throw e;
+		} 
+		if(commitFailed)
+			fail("Something threw exception, see log");
 	}
 	
 	@Test
@@ -51,6 +73,7 @@ public class TipDaoTest {
 		assertNotNull("Tip is null", tip);
 		assertEquals("PlayerId's do not match", tip.getPlayerId(), testTip.getPlayerId());
 		assertEquals("GameId's do not match", tip.getGameId(), testTip.getGameId());
+		LogFactory.getLog(getClass()).debug(tip);
 	}
 
 }

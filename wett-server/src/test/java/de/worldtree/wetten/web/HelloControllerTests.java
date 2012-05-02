@@ -3,36 +3,40 @@
  */
 package de.worldtree.wetten.web;
 
+import static org.junit.Assert.*;
+
 import java.util.Map;
 
-import junit.framework.TestCase;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.servlet.ModelAndView;
 
-import de.worldtree.wetten.dao.AccountDao;
+import de.worldtree.wetten.service.AccountService;
 
 /**
  * @author pascal
  *
  */
-public class HelloControllerTests extends TestCase {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations="classpath:applicationContext-wett-server.cml.xml")
+public class HelloControllerTests {
 	
-	AccountDao dao;
+	private final static Log log = LogFactory.getLog(HelloControllerTests.class);
 	
-	@Before
-	public void setUp() throws Exception {
-		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext-wett-server.cml.xml");
-		
-		dao = (AccountDao)ctx.getBean("accountDao");
-	}
+	@Autowired
+    HelloController controller;	
 
+	@Test
     public void testHandleRequestView() throws Exception{		
-        HelloController controller = new HelloController();
-        controller.setAccountDao(dao);
-        
         ModelAndView modelAndView = controller.handleRequest(null, null);		
         assertEquals("hello", modelAndView.getViewName());
         assertNotNull(modelAndView.getModel());

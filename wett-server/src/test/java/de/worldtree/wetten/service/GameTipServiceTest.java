@@ -13,8 +13,12 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.worldtree.wetten.model.Event;
 import de.worldtree.wetten.model.Game;
@@ -25,26 +29,13 @@ import de.worldtree.wetten.service.model.PlayerTip;
  * @author pascal
  *
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations="classpath:applicationContext-wett-server.cml.xml")
 public class GameTipServiceTest {
 
-	static ApplicationContext ctx;
+	@Autowired
 	GameTipService service;
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-		ctx = new ClassPathXmlApplicationContext("applicationContext-wett-server.cml.xml");
-	}
-
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@Before
-	public void setUp() throws Exception {
-		service = (GameTipService)ctx.getBean("gameTipService");
-	}
-
+	
 	@Test
 	public void test_findTipsForGame() {
 		int gameId = 1;

@@ -11,7 +11,7 @@ import de.worldtree.wetten.model.Event;
  * @author pascal
  *
  */
-public abstract class EventDao extends AbstractDao {
+public interface EventDao {
 
 	public abstract List<Event> findAll();
 	public abstract Event findById(int id);

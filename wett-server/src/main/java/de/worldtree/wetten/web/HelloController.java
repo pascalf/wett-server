@@ -14,29 +14,39 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import de.worldtree.wetten.dao.AccountDao;
+import de.worldtree.wetten.service.AccountService;
 
 /**
  * @author pascal
  *
  */
+@org.springframework.stereotype.Controller(value="helloController")
 public class HelloController implements Controller {
 
     protected final Log logger = LogFactory.getLog(getClass());
-    
-    private AccountDao accountDao;
 
-    public AccountDao getAccountDao() {
-		return accountDao;
+    @Autowired
+    AccountService accountService;
+    /**
+	 * @return the accountService
+	 */
+	public AccountService getAccountService() {
+		return accountService;
 	}
 
-	public void setAccountDao(AccountDao accountDao) {
-		this.accountDao = accountDao;
+	/**
+	 * @param accountService the accountService to set
+	 */
+	public void setAccountService(AccountService accountService) {
+		this.accountService = accountService;
 	}
 
+	@RequestMapping("/")
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -46,7 +56,7 @@ public class HelloController implements Controller {
          Map<String, Object> modelMap = new HashMap<String, Object>();
          modelMap.put("now", now);
          
-         modelMap.put("accounts", accountDao.findAll());
+         modelMap.put("accounts", accountService.getAll());
 
          return new ModelAndView("hello", "model", modelMap);
     }
