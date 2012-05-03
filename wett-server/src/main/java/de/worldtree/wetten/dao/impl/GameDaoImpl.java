@@ -88,4 +88,29 @@ public class GameDaoImpl implements GameDao {
 		return games; 
 	}
 
+	public List<Game> findByClosingTimeGone(Date time) {
+		log.debug(String.format("Call findByClosingTimeGone(time) [time=%s]", DateUtils.getSimpleDateFormat().format(time)));
+		Session session = sessionFactory.getCurrentSession();
+		
+		@SuppressWarnings("unchecked")
+		List<Game> games = session.createCriteria(Game.class)
+				.add(Restrictions.le("closingTime", time))
+				.list(); 
+		
+		log.debug(String.format("found %d items", games != null ? games.size() : 0));
+		return games; 
+	}
+
+	public List<Game> findByClosingTimeNotGone(Date time) {
+		log.debug(String.format("Call findByClosingTimeNotGone(time) [time=%s]", DateUtils.getSimpleDateFormat().format(time)));
+		Session session = sessionFactory.getCurrentSession();
+		
+		@SuppressWarnings("unchecked")
+		List<Game> games = session.createCriteria(Game.class)
+				.add(Restrictions.gt("closingTime", time))
+				.list(); 
+		
+		log.debug(String.format("found %d items", games != null ? games.size() : 0));
+		return games; 
+	}
 }

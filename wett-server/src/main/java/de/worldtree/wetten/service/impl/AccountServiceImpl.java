@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import de.worldtree.wetten.dao.AccountDao;
 import de.worldtree.wetten.model.Account;
+import de.worldtree.wetten.model.Event;
 import de.worldtree.wetten.service.AccountService;
 import de.worldtree.wetten.util.Utilities;
 
@@ -23,46 +24,22 @@ import de.worldtree.wetten.util.Utilities;
  */
 @Component(value="accountService")
 public class AccountServiceImpl implements AccountService {
-	
+
 	private final static Log log = LogFactory.getLog(AccountServiceImpl.class);
 
 	@Autowired
 	private SessionFactory sessionFactory;
 	@Autowired
 	private AccountDao accountDao;
-//	/**
-//	 * @return the sessionFactory
-//	 */
-//	public SessionFactory getSessionFactory() {
-//		return sessionFactory;
-//	}
-//	/**
-//	 * @param sessionFactory the sessionFactory to set
-//	 */
-//	public void setSessionFactory(SessionFactory sessionFactory) {
-//		this.sessionFactory = sessionFactory;
-//	}
-//	/**
-//	 * @return the accountDao
-//	 */
-//	public AccountDao getAccountDao() {
-//		return accountDao;
-//	}
-//	/**
-//	 * @param accountDao the accountDao to set
-//	 */
-//	public void setAccountDao(AccountDao accountDao) {
-//		this.accountDao = accountDao;
-//	}
-	
+
 	@Override
 	public List<Account> getAll() {
 		List<Account> list = new ArrayList<Account>();
 		sessionFactory.getCurrentSession().beginTransaction();
 		try {
-			 list = accountDao.findAll();
-			 
-			 sessionFactory.getCurrentSession().getTransaction().commit();
+			list = accountDao.findAll();
+
+			sessionFactory.getCurrentSession().getTransaction().commit();
 		} catch(Exception ex) {
 			log.error("DatabaseError:", ex);
 			sessionFactory.getCurrentSession().getTransaction().rollback();
@@ -76,8 +53,8 @@ public class AccountServiceImpl implements AccountService {
 		sessionFactory.getCurrentSession().beginTransaction();
 		try {
 			account = accountDao.findById(accountId);
-			 
-			 sessionFactory.getCurrentSession().getTransaction().commit();
+
+			sessionFactory.getCurrentSession().getTransaction().commit();
 		} catch(Exception ex) {
 			log.error("DatabaseError:", ex);
 			sessionFactory.getCurrentSession().getTransaction().rollback();
@@ -91,8 +68,8 @@ public class AccountServiceImpl implements AccountService {
 		sessionFactory.getCurrentSession().beginTransaction();
 		try {
 			account = accountDao.findByName(accountName);
-			 
-			 sessionFactory.getCurrentSession().getTransaction().commit();
+
+			sessionFactory.getCurrentSession().getTransaction().commit();
 		} catch(Exception ex) {
 			log.error("DatabaseError:", ex);
 			sessionFactory.getCurrentSession().getTransaction().rollback();
@@ -100,6 +77,61 @@ public class AccountServiceImpl implements AccountService {
 		log.debug(account);
 		return account;
 	}
-	
-	
+	@Override
+	public List<Event> getAccountEvents(int accountId) {
+		List<Event> list = new ArrayList<Event>();
+		Account account = null;
+		sessionFactory.getCurrentSession().beginTransaction();
+		try {
+			account = accountDao.findById(accountId);
+
+			for(Event event : account.getEvents())
+				list.add(event);
+			
+			sessionFactory.getCurrentSession().getTransaction().commit();
+		} catch(Exception ex) {
+			log.error("DatabaseError:", ex);
+			sessionFactory.getCurrentSession().getTransaction().rollback();
+		}
+		log.debug("Events for Account "+ account + ": " + Utilities.collectionToString(list, 5));
+		return list;
+	}
+	@Override
+	public List<Event> getAccountEvents(String accountName) {
+		List<Event> list = new ArrayList<Event>();
+		Account account = null;
+		sessionFactory.getCurrentSession().beginTransaction();
+		try {
+			account = accountDao.findByName(accountName);
+
+			for(Event event : account.getEvents())
+				list.add(event);
+			
+			sessionFactory.getCurrentSession().getTransaction().commit();
+		} catch(Exception ex) {
+			log.error("DatabaseError:", ex);
+			sessionFactory.getCurrentSession().getTransaction().rollback();
+		}
+		log.debug("Events for Account "+ account + ": " + Utilities.collectionToString(list, 5));
+		return list;
+	}
+	@Override
+	public List<Event> getAccountEvents(Account account) {
+		List<Event> list = new ArrayList<Event>();
+		sessionFactory.getCurrentSession().beginTransaction();
+		try {
+			sessionFactory.getCurrentSession().update(account);
+			for(Event event : account.getEvents())
+				list.add(event);
+			
+			sessionFactory.getCurrentSession().getTransaction().commit();
+		} catch(Exception ex) {
+			log.error("DatabaseError:", ex);
+			sessionFactory.getCurrentSession().getTransaction().rollback();
+		}
+		log.debug("Events for Account "+ account + ": " + Utilities.collectionToString(list, 5));
+		return list;
+	}
+
+
 }

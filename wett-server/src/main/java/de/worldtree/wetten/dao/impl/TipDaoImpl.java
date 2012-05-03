@@ -56,4 +56,32 @@ public class TipDaoImpl implements TipDao {
 		return tip;
 	}
 
+	@Override
+	public List<Tip> findByPlayerId(int playerId) {
+		log.debug(String.format("Call findByPlayerId(playerId) [playerId=%d]", playerId));
+		Session session = sessionFactory.openSession();
+		session.getTransaction().begin();
+		List<Tip> tips = (List<Tip>)session.createCriteria(Tip.class)
+				.add(Restrictions.eq("playerId", playerId))
+				.list();
+		session.getTransaction().commit();
+		session.close();
+		log.debug(String.format("found %d items", tips != null ? tips.size() : 0));
+		return tips;
+	}
+
+	@Override
+	public List<Tip> findByGameId(int gameId) {
+		log.debug(String.format("Call findByGameId(gameId) [gameId=%d]", gameId));
+		Session session = sessionFactory.openSession();
+		session.getTransaction().begin();
+		List<Tip> tips = (List<Tip>)session.createCriteria(Tip.class)
+				.add(Restrictions.eq("gameId", gameId))
+				.list();
+		session.getTransaction().commit();
+		session.close();
+		log.debug(String.format("found %d items", tips != null ? tips.size() : 0));
+		return tips;
+	}
+
 }

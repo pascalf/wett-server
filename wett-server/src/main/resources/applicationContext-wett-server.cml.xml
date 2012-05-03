@@ -14,7 +14,7 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
-<context:component-scan base-package="de.worldtree.wetten.web"/>
+	<context:component-scan base-package="de.worldtree.wetten.web"/>
 
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
@@ -25,14 +25,6 @@
 	<bean id="eventDao" class="de.worldtree.wetten.dao.impl.EventDaoImpl" scope="singleton"/>
 	<bean id="tipDao" class="de.worldtree.wetten.dao.impl.TipDaoImpl" scope="singleton"/>
 	 
-	<bean id="gameTipService" class="de.worldtree.wetten.service.impl.GameTipServiceImpl">
-		<property name="eventDao" ref="eventDao" />
-		<property name="accountDao" ref="accountDao" />
-		<property name="gameDao" ref="gameDao" />
-		<property name="tipDao" ref="tipDao" />
-	</bean>
-	
-	
 	<bean id="accountService" class="de.worldtree.wetten.service.impl.AccountServiceImpl"/>
 	<bean id="eventService" class="de.worldtree.wetten.service.impl.EventServiceImpl"/>
 	<bean id="gameService" class="de.worldtree.wetten.service.impl.GameServiceImpl"/>

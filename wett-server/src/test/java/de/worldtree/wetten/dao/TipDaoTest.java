@@ -75,5 +75,41 @@ public class TipDaoTest {
 		assertEquals("GameId's do not match", tip.getGameId(), testTip.getGameId());
 		LogFactory.getLog(getClass()).debug(tip);
 	}
+	
+	@Test
+	public void test_findByPlayerId() {
+		List<Tip> list = null;
+		list = dao.findAll();
+		
+		assertNotNull("List is null", list);
+		assertFalse("List is empty", list.isEmpty());
+		
+		Tip testTip = list.get(0);
+		int playerId = testTip.getPlayerId();
+		
+		List<Tip> tips = dao.findByPlayerId(playerId);
+		assertNotNull("Tips is null", tips);
+		assertFalse("Tips is empty", tips.isEmpty());
+		for(Tip t : tips)
+			assertEquals("Player Id's do not match, got playerId=" + t.getPlayerId() + " but expected playerId=" + playerId, playerId, t.getPlayerId());
+	}
+	
+	@Test
+	public void test_findByGameId() {
+		List<Tip> list = null;
+		list = dao.findAll();
+		
+		assertNotNull("List is null", list);
+		assertFalse("List is empty", list.isEmpty());
+		
+		Tip testTip = list.get(0);
+		int gameId = testTip.getPlayerId();
+		
+		List<Tip> tips = dao.findByGameId(gameId);
+		assertNotNull("Tips is null", tips);
+		assertFalse("Tips is empty", tips.isEmpty());
+		for(Tip t : tips)
+			assertEquals("Game Id's do not match, got gameId=" + t.getGameId() + " but expected gameId=" + gameId, gameId, t.getGameId());
+	}
 
 }

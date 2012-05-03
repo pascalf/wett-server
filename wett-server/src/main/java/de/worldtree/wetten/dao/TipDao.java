@@ -12,4 +12,6 @@ public interface TipDao {
 
 	public abstract List<Tip> findAll();
 	public abstract Tip findByPlayerIdAndGameId(int playerId, int gameId);
+	public List<Tip> findByPlayerId(int playerId);
+	public List<Tip> findByGameId(int gameId);
 }

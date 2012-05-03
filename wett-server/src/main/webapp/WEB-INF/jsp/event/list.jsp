@@ -8,7 +8,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <title>Event List</title>
-<link href="/recources/style.css" rel="stylesheet" type="text/css">
+<link href="<c:url value="/resources/style.css" />" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -27,10 +27,10 @@ All available Events:
 			<th>Name</th>
 			
 		</tr>
-		<c:forEach items="${model.events}" var="event" varStatus="status">
+		<c:forEach items="${events}" var="event" varStatus="status">
 			<!--  <tr class="<c:if test="${status.count % 2 == 0}">even</c:if>">-->
 			<tr>
-				<td><a href="eventoverview.htm?eid=<c:out value="${event.id}"/>">${event.name}</a></td>
+				<td><a href="<c:url value="/event/${event.id}/"  />">${event.name}</a></td>
 				
 			</tr>
 		</c:forEach>

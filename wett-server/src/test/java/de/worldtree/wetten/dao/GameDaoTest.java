@@ -138,4 +138,40 @@ public class GameDaoTest {
 		assertNotNull("List is null", games);
 		assertFalse("List is empty", games.isEmpty());
 	}
+	@Test
+	public void test_findByClosingTimeGone() {
+		List<Game> games = dao.findAll();
+		assertNotNull("List is null", games);
+		assertFalse("List is empty", games.isEmpty());
+		Game testGame = games.get(0);
+		
+		games.clear();
+		Calendar c = Calendar.getInstance();
+		c.setTime(testGame.getClosingTime());		
+		c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH) + 1);
+		Date newDate = c.getTime();
+		games = dao.findByClosingTimeGone(newDate);
+		assertNotNull("List is null", games);
+		assertFalse("List is empty", games.isEmpty());
+		
+		games = dao.findByClosingTimeGone(testGame.getClosingTime());
+		assertNotNull("List is null", games);
+		assertFalse("List is empty", games.isEmpty());
+	}
+	@Test
+	public void test_findByClosingTimeNotGone() {
+		List<Game> games = dao.findAll();
+		assertNotNull("List is null", games);
+		assertFalse("List is empty", games.isEmpty());
+		Game testGame = games.get(0);
+
+		games.clear();
+		Calendar c = Calendar.getInstance();
+		c.setTime(testGame.getClosingTime());		
+		c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH) - 1);
+		Date newDate = c.getTime();
+		games = dao.findByClosingTimeNotGone(newDate);
+		assertNotNull("List is null", games);
+		assertFalse("List is empty", games.isEmpty());
+	}
 }
